@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INDONEST | Everything You Love</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#10213b;--gold:#e9b44c;--bg:#f5f7fb;--text:#182338}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:var(--navy);color:white;padding:16px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900;letter-spacing:1px;color:var(--gold)}
+.search{display:flex;flex:1;max-width:600px;min-width:200px}
+.search input{width:100%;padding:12px;border:0;border-radius:7px 0 0 7px;font-size:15px}
+.search button{padding:12px 18px;border:0;background:var(--gold);cursor:pointer;border-radius:0 7px 7px 0}
+.header-actions{display:flex;gap:15px;align-items:center}
+button{cursor:pointer}
+.header-actions button{background:transparent;color:white;border:0;font-size:14px}
+nav{background:#fff;display:flex;gap:24px;padding:14px 5%;overflow-x:auto;white-space:nowrap;box-shadow:0 2px 8px #00000008}
+nav a{color:var(--text);text-decoration:none;font-size:14px;font-weight:bold}
+.hero{margin:25px auto;width:90%;max-width:1400px;min-height:270px;border-radius:20px;padding:45px;background:linear-gradient(120deg,#10213b,#244d70);color:white;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}
+.hero h1{font-size:clamp(30px,5vw,55px);max-width:650px;margin-bottom:15px}
+.hero p{color:#dce6f5;line-height:1.6;margin-bottom:22px}
+.gold-btn{background:var(--gold);color:#17243b;border:0;border-radius:8px;padding:13px 22px;font-weight:bold}
+.hero-icon{font-size:110px}
+.section{width:90%;max-width:1400px;margin:30px auto}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.section-head h2{font-size:25px}
+.categories{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.category{background:white;padding:22px 10px;text-align:center;border-radius:13px;box-shadow:0 4px 15px #16233b08;cursor:pointer;border:1px solid #edf0f5}
+.category .emoji{font-size:34px;margin-bottom:10px}
+.category:hover,.product:hover{transform:translateY(-3px);box-shadow:0 8px 22px #16233b12}
+.category,.product{transition:.2s}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.product{background:white;border-radius:14px;overflow:hidden;border:1px solid #edf0f5}
+.product-image{height:170px;display:grid;place-items:center;background:#edf1f7;font-size:62px}
+.product-info{padding:16px}
+.product-info h3{font-size:16px;margin-bottom:8px}
+.rating{color:#d99820;font-size:13px;margin-bottom:10px}
+.price{font-size:20px;font-weight:bold}
+.old-price{font-size:13px;color:#8991a0;text-decoration:line-through;margin-left:7px}
+.product-info button{margin-top:13px;width:100%;padding:11px;border:0;border-radius:7px;background:var(--navy);color:white;font-weight:bold}
+.product-info button:hover{background:#284b77}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.benefit{background:white;padding:22px;border-radius:12px;text-align:center}
+.benefit strong{display:block;margin-bottom:7px}
+footer{margin-top:45px;background:var(--navy);color:white;padding:35px 5%;text-align:center}
+footer p{color:#ccd5e4;margin-top:10px;font-size:14px}
+#cart-count{color:var(--gold);font-weight:bold}
+.empty{grid-column:1/-1;padding:30px;background:white;border-radius:12px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#10213b;color:white;padding:13px 20px;border-radius:9px;display:none;z-index:5}
+@media(max-width:850px){.categories{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.benefits{grid-template-columns:repeat(2,1fr)}.hero-icon{font-size:70px}}
+@media(max-width:480px){header{padding:14px 4%}.logo{font-size:23px}.header-actions{width:100%;justify-content:space-between}.hero{width:92%;padding:25px;min-height:240px}.hero-icon{display:none}.section{width:92%}.section-head h2{font-size:21px}.product-image{height:130px;font-size:48px}.product-info{padding:12px}.categories{gap:9px}.category{padding:16px 5px;font-size:13px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">INDONEST<span style="color:white">.</span></div>
+  <form class="search" id="search-form">
+    <input id="search-input" type="search" placeholder="Search products, brands and more...">
+    <button type="submit">🔍</button>
+  </form>
+  <div class="header-actions">
+    <button onclick="changeLanguage()">🌐 <span id="lang-label">EN</span></button>
+    <button onclick="showToast('Customer accounts will be connected in the next stage.')">👤 Account</button>
+    <button onclick="showCart()">🛒 Cart <span id="cart-count">(0)</span></button>
+  </div>
+</header>
+
+<nav>
+  <a href="#categories">All Categories</a>
+  <a href="#products">Today's Deals</a>
+  <a href="#products">Best Sellers</a>
+  <a href="#benefits">Why INDONEST?</a>
+  <a href="#footer">Contact</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <p style="color:#e9b44c;font-weight:bold;letter-spacing:2px">YOUR WORLD. ONE NEST.</p>
+    <h1>Everything you love, all in one place.</h1>
+    <p>Discover everyday essentials, trending gadgets, fashion and more.</p>
+    <button class="gold-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Explore Products →</button>
+  </div>
+  <div class="hero-icon">🛍️</div>
+</section>
+
+<section class="section" id="categories">
+  <div class="section-head"><h2>Explore Categories</h2></div>
+  <div class="categories">
+    <div class="category" onclick="filterCategory('Electronics')"><div class="emoji">📱</div>Electronics</div>
+    <div class="category" onclick="filterCategory('Fashion')"><div class="emoji">👕</div>Fashion</div>
+    <div class="category" onclick="filterCategory('Home')"><div class="emoji">🏠</div>Home & Living</div>
+    <div class="category" onclick="filterCategory('Books')"><div class="emoji">📚</div>Books</div>
+    <div class="category" onclick="filterCategory('Beauty')"><div class="emoji">✨</div>Beauty</div>
+    <div class="category" onclick="filterCategory('Food')"><div class="emoji">🍫</div>Food & Grocery</div>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-head">
+    <h2 id="product-heading">Featured Products</h2>
+    <button onclick="renderProducts(products)" style="border:0;background:none;color:#284b77">View All →</button>
+  </div>
+  <div class="products" id="product-grid"></div>
+</section>
+
+<section class="section" id="benefits">
+  <div class="section-head"><h2>The INDONEST Promise</h2></div>
+  <div class="benefits">
+    <div class="benefit"><div style="font-size:28px">🚚</div><strong>Delivery Options</strong><p>Flexible delivery choices</p></div>
+    <div class="benefit"><div style="font-size:28px">🔒</div><strong>Secure Shopping</strong><p>Payment integration coming next</p></div>
+    <div class="benefit"><div style="font-size:28px">💬</div><strong>Customer Support</strong><p>We're here to help</p></div>
+    <div class="benefit"><div style="font-size:28px">↩️</div><strong>Return Policy</strong><p>Eligible returns up to 7 days</p></div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="logo">INDONEST.</div>
+  <p>Your world. One nest.</p>
+  <p>© <span id="year"></span> INDONEST. All rights reserved.</p>
+  <p style="margin-top:15px">Demo storefront — sample products and prices only.</p>
+</footer>
+
+<div id="toast" role="status"></div>
+
+<script>
+const products = [
+ {id:1,name:"Wireless Earbuds",category:"Electronics",price:899,old:1499,emoji:"🎧",rating:"★★★★☆"},
+ {id:2,name:"Everyday Backpack",category:"Fashion",price:699,old:999,emoji:"🎒",rating:"★★★★★"},
+ {id:3,name:"Smart Watch",category:"Electronics",price:1299,old:1999,emoji:"⌚",rating:"★★★★☆"},
+ {id:4,name:"Premium T-Shirt",category:"Fashion",price:399,old:699,emoji:"👕",rating:"★★★★★"},
+ {id:5,name:"Desk Lamp",category:"Home",price:549,old:799,emoji:"💡",rating:"★★★★☆"},
+ {id:6,name:"The Success Journal",category:"Books",price:299,old:449,emoji:"📔",rating:"★★★★★"},
+ {id:7,name:"Skincare Essentials",category:"Beauty",price:499,old:799,emoji:"🧴",rating:"★★★★☆"},
+ {id:8,name:"Snack Gift Box",category:"Food",price:349,old:499,emoji:"🍫",rating:"★★★★★"}
+];
+let cart = [];
+let hindi = false;
+const rupees = n => "₹" + n.toLocaleString("en-IN");
+
+function renderProducts(list){
+ const grid = document.getElementById("product-grid");
+ grid.innerHTML = "";
+ if(!list.length){grid.innerHTML='<div class="empty">No matching products found. Try another search.</div>';return;}
+ list.forEach(p=>{
+  const card=document.createElement("article");
+  card.className="product";
+  card.innerHTML=`
+   <div class="product-image">${p.emoji}</div>
+   <div class="product-info">
+    <h3>${p.name}</h3>
+    <div class="rating">${p.rating} <span style="color:#777">(${p.category})</span></div>
+    <span class="price">${rupees(p.price)}</span><span class="old-price">${rupees(p.old)}</span>
+    <button type="button" onclick="addToCart(${p.id})">Add to Cart</button>
+   </div>`;
+  grid.appendChild(card);
+ });
+}
+function addToCart(id){
+ const p=products.find(x=>x.id===id);
+ const item=cart.find(x=>x.id===id);
+ if(item)item.qty++;else cart.push({...p,qty:1});
+ updateCartCount();
+ showToast(p.name+" added to cart!");
+}
+function updateCartCount(){
+ document.getElementById("cart-count").textContent="("+cart.reduce((n,p)=>n+p.qty,0)+")";
+}
+function showCart(){
+ if(!cart.length){showToast("Your cart is empty.");return;}
+ let message="YOUR CART\n\n";
+ cart.forEach(p=>message+=p.name+" × "+p.qty+" — "+rupees(p.price*p.qty)+"\n");
+ message+="\nTotal: "+rupees(cart.reduce((n,p)=>n+p.price*p.qty,0));
+ message+="\n\nCheckout and payments will be connected in the next stage.";
+ alert(message);
+}
+function filterCategory(category){
+ const list=products.filter(p=>p.category===category);
+ document.getElementById("product-heading").textContent=category+" Products";
+ renderProducts(list);
+ document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+document.getElementById("search-form").addEventListener("submit",e=>{
+ e.preventDefault();
+ const q=document.getElementById("search-input").value.trim().toLowerCase();
+ document.getElementById("product-heading").textContent="Search Results";
+ renderProducts(products.filter(p=>(p.name+" "+p.category).toLowerCase().includes(q)));
+ document.getElementById("products").scrollIntoView({behavior:"smooth"});
+});
+let toastTimer;
+function showToast(msg){
+ const t=document.getElementById("toast");
+ t.textContent=msg;t.style.display="block";
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",2500);
+}
+function changeLanguage(){
+ hindi=!hindi;
+ document.getElementById("lang-label").textContent=hindi?"HI":"EN";
+ showToast(hindi?"भाषा चयन का अगला चरण जल्द आएगा।":"Language selector demo.");
+}
+document.getElementById("year").textContent=new Date().getFullYear();
+renderProducts(products);
+</script>
+</body>
+</html>
